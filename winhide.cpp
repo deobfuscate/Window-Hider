@@ -17,6 +17,7 @@ void main() {
     while (GetMessage(&msg, NULL, 0, 0) != 0) {
         if (msg.message == WM_HOTKEY && msg.wParam == 1) { // ALT+b
             HWND hw = GetForegroundWindow();
+            ShowWindow(hw, SW_HIDE);
             int bufsize = GetWindowTextLength(hw) + 1;
             char title[BUFSIZ];
             GetWindowTextA(hw, title, bufsize);
@@ -25,6 +26,7 @@ void main() {
         }
         if (msg.message == WM_HOTKEY && msg.wParam == 2) { // ALT+c
             if (!windows.empty()) {
+                ShowWindow(windows.front(), SW_SHOW);
                 windows.pop_front();
             }
         }
