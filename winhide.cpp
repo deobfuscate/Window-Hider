@@ -16,13 +16,13 @@ void main() {
 
     while (GetMessage(&msg, NULL, 0, 0) != 0) {
         if (msg.message == WM_HOTKEY && msg.wParam == 1) { // ALT+b
-            HWND hw = GetForegroundWindow();
-            ShowWindow(hw, SW_HIDE);
-            int bufsize = GetWindowTextLength(hw) + 1;
+            HWND handle = GetForegroundWindow();
+            int title_length = GetWindowTextLength(handle) + 1;
             char title[BUFSIZ];
-            GetWindowTextA(hw, title, bufsize);
-            cout << "The window: \"" << title << "\" was hidden " << hw << endl;
-            windows.push_front(hw);
+            ShowWindow(handle, SW_HIDE);
+            GetWindowTextA(handle, title, title_length);
+            cout << "The window: \"" << title << "\" was hidden" << endl;
+            windows.push_front(handle);
         }
         if (msg.message == WM_HOTKEY && msg.wParam == 2) { // ALT+c
             if (!windows.empty()) {
