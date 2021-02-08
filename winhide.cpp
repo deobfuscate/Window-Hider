@@ -1,21 +1,27 @@
 #include <iostream>
 #include <list>
 #include <windows.h>
+
+#define HOTKEY_HIDE 1
+#define HOTKEY_SHOW 2
+#define KEY_B 0x42
+#define KEY_C 0x43
+
 using namespace std;
 
 void main() {
     MSG msg = { 0 };
     list<HWND> windows;
-    if (RegisterHotKey(NULL, 1, MOD_ALT | MOD_NOREPEAT, 0x42) && // ALT+b
-        RegisterHotKey(NULL, 2, MOD_ALT | MOD_NOREPEAT, 0x43)) { // ALT+c
-        printf("Hotkey ALT+b with MOD_NOREPEAT flag\n");
+    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
+        RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
+        cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered." << endl;
     }
     else {
-        printf("Failed to register hotkey\n");
+        cout << "Failed to register hotkeys." << endl;
     }
 
     while (GetMessage(&msg, NULL, 0, 0) != 0) {
-        if (msg.message == WM_HOTKEY && msg.wParam == 1) { // ALT+b
+        if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_HIDE) {
             HWND handle = GetForegroundWindow();
             int title_length = GetWindowTextLength(handle) + 1;
             char title[BUFSIZ];
@@ -24,7 +30,7 @@ void main() {
             cout << "The window: \"" << title << "\" was hidden" << endl;
             windows.push_front(handle);
         }
-        if (msg.message == WM_HOTKEY && msg.wParam == 2) { // ALT+c
+        if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_SHOW) {
             if (!windows.empty()) {
                 ShowWindow(windows.front(), SW_SHOW);
                 windows.pop_front();
