@@ -23,9 +23,11 @@ void main() {
     while (GetMessage(&msg, NULL, 0, 0) != 0) {
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_HIDE) {
             HWND handle = GetForegroundWindow();
+            if (!windows.empty() && windows.front() == handle)
+                continue; // prevent rehiding the same window
             char title[BUFSIZ];
             ShowWindow(handle, SW_HIDE);
-            GetWindowTextA(handle, title,  GetWindowTextLength(handle) + 1);
+            GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
             cout << "The window: \"" << title << "\" was hidden" << endl;
             windows.push_front(handle);
         }
