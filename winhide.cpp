@@ -27,8 +27,12 @@ void main() {
                 continue; // prevent rehiding the same window
             char title[BUFSIZ];
             ShowWindow(handle, SW_HIDE);
-            GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
-            cout << "The window: \"" << title << "\" was hidden" << endl;
+            if (GetWindowTextLength(handle) == 0)
+                cout << "The window: " << handle << " was hidden" << endl;
+            else {
+                GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
+                cout << "The window: \"" << title << "\" was hidden" << endl;
+            }
             windows.push_front(handle);
         }
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_SHOW && !windows.empty()) {
