@@ -12,6 +12,8 @@ using namespace std;
 void main() {
     MSG msg = { 0 };
     list<HWND> windows;
+    SetConsoleTitleA("Window Hider");
+    cout << "Window Hider v1.0" << endl;
     if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered." << endl;
