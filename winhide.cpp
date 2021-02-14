@@ -10,16 +10,25 @@
 using namespace std;
 
 void main() {
+    // ensure only one instance is running
+    HANDLE current_mutex = CreateMutexA(NULL, true, "Window hider");
+    DWORD last_error = GetLastError();
+    if (last_error == ERROR_ALREADY_EXISTS)
+    {
+        CloseHandle(current_mutex);
+        return;
+    }
+
     MSG msg = { 0 };
     list<HWND> windows;
     SetConsoleTitleA("Window Hider");
     cout << "Window Hider v1.0" << endl;
     if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
-        cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered." << endl;
+        cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
     }
     else {
-        cout << "Failed to register hotkeys." << endl;
+        cout << "Failed to register hotkeys" << endl;
     }
 
     while (GetMessage(&msg, NULL, 0, 0) != 0) {
