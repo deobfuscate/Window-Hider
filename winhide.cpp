@@ -15,7 +15,8 @@ void main() {
     DWORD last_error = GetLastError();
     if (last_error == ERROR_ALREADY_EXISTS)
     {
-        CloseHandle(current_mutex);
+        if (current_mutex != 0)
+            CloseHandle(current_mutex);
         return;
     }
 
