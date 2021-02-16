@@ -13,10 +13,9 @@ void main() {
     // ensure only one instance is running
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window hider");
     DWORD last_error = GetLastError();
-    if (last_error == ERROR_ALREADY_EXISTS)
+    if (current_mutex != 0 && last_error == ERROR_ALREADY_EXISTS)
     {
-        if (current_mutex != 0)
-            CloseHandle(current_mutex);
+        CloseHandle(current_mutex);
         return;
     }
 
@@ -37,11 +36,11 @@ void main() {
             HWND handle = GetForegroundWindow();
             if (!windows.empty() && windows.front() == handle)
                 continue; // prevent rehiding the same window
-            char title[BUFSIZ];
             ShowWindow(handle, SW_HIDE);
             if (GetWindowTextLength(handle) == 0)
                 cout << "The window: " << handle << " was hidden" << endl;
             else {
+                char title[BUFSIZ];
                 GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
                 cout << "The window: \"" << title << "\" was hidden" << endl;
             }
