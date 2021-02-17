@@ -42,12 +42,16 @@ void main() {
             else {
                 char title[BUFSIZ];
                 GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
-                cout << "The window: \"" << title << "\" was hidden" << endl;
+                cout << "Window hidden: \"" << title << endl;
             }
             windows.push_front(handle);
         }
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_SHOW && !windows.empty()) {
-            ShowWindow(windows.front(), SW_SHOW);
+            HWND current = windows.front();
+            ShowWindow(current, SW_SHOW);
+            char title[BUFSIZ];
+            GetWindowTextA(current, title, GetWindowTextLength(current) + 1);
+            cout << "Window shown: \"" << title << "\"" << endl;
             windows.pop_front();
         }
     }
