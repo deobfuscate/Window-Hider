@@ -38,19 +38,19 @@ void main() {
                 continue; // prevent rehiding the same window
             ShowWindow(handle, SW_HIDE);
             if (GetWindowTextLength(handle) == 0)
-                cout << "The window: " << handle << " was hidden" << endl;
+                cout << "Window hidden: " << handle << endl;
             else {
                 char title[BUFSIZ];
                 GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
-                cout << "Window hidden: \"" << title << endl;
+                cout << "Window hidden: \"" << title << "\"" << endl;
             }
             windows.push_front(handle);
         }
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_SHOW && !windows.empty()) {
-            HWND current = windows.front();
-            ShowWindow(current, SW_SHOW);
+            HWND handle = windows.front();
+            ShowWindow(handle, SW_SHOW);
             char title[BUFSIZ];
-            GetWindowTextA(current, title, GetWindowTextLength(current) + 1);
+            GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
             cout << "Window shown: \"" << title << "\"" << endl;
             windows.pop_front();
         }
