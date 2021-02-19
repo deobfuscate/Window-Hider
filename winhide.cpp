@@ -49,10 +49,23 @@ void main() {
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_SHOW && !windows.empty()) {
             HWND handle = windows.front();
             ShowWindow(handle, SW_SHOW);
-            char title[BUFSIZ];
-            GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
-            cout << "Window shown: \"" << title << "\"" << endl;
+            if (GetWindowTextLength(handle) == 0)
+                cout << "Window shown: " << handle << endl;
+            else {
+                char title[BUFSIZ];
+                GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
+                cout << "Window shown: \"" << title << "\"" << endl;
+            }
             windows.pop_front();
         }
+    }
+}
+void domessage(HWND handle, string action) {
+    if (GetWindowTextLength(handle) == 0)
+        cout << action << ": " << handle << endl;
+    else {
+        char title[BUFSIZ];
+        GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
+        cout << action << ": \"" << title << "\"" << endl;
     }
 }
