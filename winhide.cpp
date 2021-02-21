@@ -9,6 +9,17 @@
 
 using namespace std;
 
+void WindowState(HWND handle, int state, string action) {
+    ShowWindow(handle, state);
+    if (GetWindowTextLength(handle) == 0)
+        cout << action << ": " << handle << endl;
+    else {
+        char title[BUFSIZ];
+        GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
+        cout << action << ": \"" << title << "\"" << endl;
+    }
+}
+
 void main() {
     // ensure only one instance is running
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window hider");
@@ -36,36 +47,12 @@ void main() {
             HWND handle = GetForegroundWindow();
             if (!windows.empty() && windows.front() == handle)
                 continue; // prevent rehiding the same window
-            ShowWindow(handle, SW_HIDE);
-            if (GetWindowTextLength(handle) == 0)
-                cout << "Window hidden: " << handle << endl;
-            else {
-                char title[BUFSIZ];
-                GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
-                cout << "Window hidden: \"" << title << "\"" << endl;
-            }
+            WindowState(handle, SW_HIDE, "Window hidden");
             windows.push_front(handle);
         }
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_SHOW && !windows.empty()) {
-            HWND handle = windows.front();
-            ShowWindow(handle, SW_SHOW);
-            if (GetWindowTextLength(handle) == 0)
-                cout << "Window shown: " << handle << endl;
-            else {
-                char title[BUFSIZ];
-                GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
-                cout << "Window shown: \"" << title << "\"" << endl;
-            }
+            WindowState(windows.front(), SW_SHOW, "Window shown");
             windows.pop_front();
         }
-    }
-}
-void domessage(HWND handle, string action) {
-    if (GetWindowTextLength(handle) == 0)
-        cout << action << ": " << handle << endl;
-    else {
-        char title[BUFSIZ];
-        GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
-        cout << action << ": \"" << title << "\"" << endl;
     }
 }
