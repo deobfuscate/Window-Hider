@@ -9,6 +9,16 @@
 
 using namespace std;
 
+void SingleInstance() {
+    HANDLE current_mutex = CreateMutexA(NULL, true, "Window Hider");
+    DWORD last_error = GetLastError();
+    if (current_mutex != 0 && last_error == ERROR_ALREADY_EXISTS)
+    {
+        CloseHandle(current_mutex);
+        exit(EXIT_FAILURE);
+    }
+}
+
 void WindowState(HWND handle, int state, string action) {
     ShowWindow(handle, state);
     if (GetWindowTextLength(handle) == 0)
@@ -21,15 +31,7 @@ void WindowState(HWND handle, int state, string action) {
 }
 
 void main() {
-    // ensure only one instance is running
-    HANDLE current_mutex = CreateMutexA(NULL, true, "Window hider");
-    DWORD last_error = GetLastError();
-    if (current_mutex != 0 && last_error == ERROR_ALREADY_EXISTS)
-    {
-        CloseHandle(current_mutex);
-        return;
-    }
-
+    SingleInstance();
     MSG msg = { 0 };
     list<HWND> windows;
     SetConsoleTitleA("Window Hider");
