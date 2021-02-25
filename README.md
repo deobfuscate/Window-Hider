@@ -1,4 +1,4 @@
-# Window-Hider
+# Window Hider
 A utility to hide and show program windows on the Windows OS
 
 ## Features
