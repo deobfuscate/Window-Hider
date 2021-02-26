@@ -21,11 +21,11 @@ void SingleInstance() {
 
 void WindowState(HWND handle, int state, string action) {
     ShowWindow(handle, state);
-    if (GetWindowTextLength(handle) == 0)
+    if (GetWindowTextLengthA(handle) == 0)
         cout << action << ": " << handle << endl;
     else {
         char title[BUFSIZ];
-        GetWindowTextA(handle, title, GetWindowTextLength(handle) + 1);
+        GetWindowTextA(handle, title, GetWindowTextLengthA(handle) + 1);
         cout << action << ": \"" << title << "\"" << endl;
     }
 }
