@@ -11,22 +11,21 @@ using namespace std;
 
 void SingleInstance() {
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window Hider");
-    DWORD last_error = GetLastError();
-    if (current_mutex != 0 && last_error == ERROR_ALREADY_EXISTS)
+    if (current_mutex != 0 && GetLastError() == ERROR_ALREADY_EXISTS)
     {
         CloseHandle(current_mutex);
         exit(EXIT_FAILURE);
     }
 }
 
-void WindowState(HWND handle, int state, string action) {
+void WindowState(HWND handle, int state, string action_str) {
     ShowWindow(handle, state);
     if (GetWindowTextLengthA(handle) == 0)
-        cout << action << ": " << handle << endl;
+        cout << action_str << ": " << handle << endl;
     else {
         char title[BUFSIZ];
         GetWindowTextA(handle, title, GetWindowTextLengthA(handle) + 1);
-        cout << action << ": \"" << title << "\"" << endl;
+        cout << action_str << ": \"" << title << "\"" << endl;
     }
 }
 
