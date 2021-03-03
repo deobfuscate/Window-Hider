@@ -48,6 +48,10 @@ void main() {
             HWND handle = GetForegroundWindow();
             if (!windows.empty() && windows.front() == handle)
                 continue; // prevent rehiding the same window
+            char classname[BUFSIZ];
+            GetClassNameA(handle, classname, BUFSIZ);
+            if (strcmp(classname, "Progman") == 0 || strcmp(classname, "Shell_TrayWnd") == 0)
+                continue; // prevent hiding desktop or taskbar
             WindowState(handle, SW_HIDE, "Window hidden");
             windows.push_front(handle);
         }
