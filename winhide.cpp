@@ -46,12 +46,12 @@ void main() {
     while (GetMessage(&msg, NULL, 0, 0) != 0) {
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_HIDE) {
             HWND handle = GetForegroundWindow();
-            if (!windows.empty() && windows.front() == handle)
-                continue; // prevent rehiding the same window
             char classname[BUFSIZ];
             GetClassNameA(handle, classname, BUFSIZ);
-            if (strcmp(classname, "Progman") == 0 || strcmp(classname, "Shell_TrayWnd") == 0)
-                continue; // prevent hiding desktop or taskbar
+            if ((!windows.empty() && windows.front() == handle) || // prevent rehiding the same window
+                strcmp(classname, "Progman") == 0 || // prevent hiding desktop or taskbar
+                strcmp(classname, "Shell_TrayWnd") == 0)
+                continue;
             WindowState(handle, SW_HIDE, "Window hidden");
             windows.push_front(handle);
         }
