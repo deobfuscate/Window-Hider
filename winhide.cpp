@@ -6,6 +6,8 @@
 #define HOTKEY_SHOW 2
 #define KEY_B 0x42
 #define KEY_C 0x43
+#define CLASS_DESKTOP "Progman"
+#define CLASS_TASKBAR "Shell_TrayWnd"
 
 using namespace std;
 
@@ -49,8 +51,8 @@ void main() {
             char classname[BUFSIZ];
             GetClassNameA(handle, classname, BUFSIZ);
             if ((!windows.empty() && windows.front() == handle) || // prevent rehiding the same window
-                strcmp(classname, "Progman") == 0 || // prevent hiding desktop or taskbar
-                strcmp(classname, "Shell_TrayWnd") == 0)
+                strcmp(classname, CLASS_DESKTOP) == 0 || // prevent hiding desktop or taskbar
+                strcmp(classname, CLASS_TASKBAR) == 0)
                 continue;
             WindowState(handle, SW_HIDE, "Window hidden");
             windows.push_front(handle);
