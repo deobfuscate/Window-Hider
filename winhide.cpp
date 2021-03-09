@@ -7,8 +7,10 @@
 #define KEY_B 0x42
 #define KEY_C 0x43
 #define CLASS_DESKTOP "Progman"
-#define CLASS_DESKTOP2 "WorkerW"
+#define CLASS_DESKTOP_LAYER "WorkerW"
 #define CLASS_TASKBAR "Shell_TrayWnd"
+#define CLASS_START_MENU "Windows.UI.Core.CoreWindow"
+#define CLASS_NOTIFY_PANEL "NotifyIconOverflowWindow"
 
 using namespace std;
 
@@ -64,9 +66,11 @@ void main() {
             char classname[BUFSIZ];
             GetClassNameA(handle, classname, BUFSIZ);
             if ((!windows.empty() && windows.front() == handle) || // prevent rehiding the same window
-                strcmp(classname, CLASS_DESKTOP) == 0 || // prevent hiding desktop or taskbar
-                strcmp(classname, CLASS_DESKTOP2) == 0 ||
-                strcmp(classname, CLASS_TASKBAR) == 0)
+                strcmp(classname, CLASS_DESKTOP) == 0 || // prevent hiding OS elements
+                strcmp(classname, CLASS_DESKTOP_LAYER) == 0 ||
+                strcmp(classname, CLASS_TASKBAR) == 0 ||
+                strcmp(classname, CLASS_START_MENU) == 0 ||
+                strcmp(classname, CLASS_NOTIFY_PANEL) == 0)
                 continue;
             WindowState(handle, SW_HIDE, "Window hidden");
             windows.push_front(handle);
