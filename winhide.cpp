@@ -50,6 +50,7 @@ void main() {
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
     MSG msg = { 0 };
+    list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     SetConsoleTitleA("Window Hider");
     cout << "Window Hider v1.0" << endl;
     if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
@@ -65,12 +66,9 @@ void main() {
             HWND handle = GetForegroundWindow();
             char classname[BUFSIZ];
             GetClassNameA(handle, classname, BUFSIZ);
-            if ((!windows.empty() && windows.front() == handle) || // prevent rehiding the same window
-                strcmp(classname, CLASS_DESKTOP) == 0 || // prevent hiding OS elements
-                strcmp(classname, CLASS_DESKTOP_LAYER) == 0 ||
-                strcmp(classname, CLASS_TASKBAR) == 0 ||
-                strcmp(classname, CLASS_START_MENU) == 0 ||
-                strcmp(classname, CLASS_NOTIFY_PANEL) == 0)
+            if (!windows.empty() && windows.front() == handle) // prevent hiding the same window
+                continue;
+            if (find(exclusions.begin(), exclusions.end(), classname) != exclusions.end()) // prevent hiding OS elements
                 continue;
             WindowState(handle, SW_HIDE, "Window hidden");
             windows.push_front(handle);
