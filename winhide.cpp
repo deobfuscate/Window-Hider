@@ -57,9 +57,8 @@ void main() {
             HWND handle = GetForegroundWindow();
             char classname[BUFSIZ];
             GetClassNameA(handle, classname, BUFSIZ);
-            if (!windows.empty() && windows.front() == handle) // prevent hiding the same window
-                continue;
-            if (find(exclusions.begin(), exclusions.end(), classname) != exclusions.end()) // prevent hiding OS elements
+            if ((!windows.empty() && windows.front() == handle) || // prevent hiding the same window
+                find(exclusions.begin(), exclusions.end(), classname) != exclusions.end()) // prevent hiding OS elements
                 continue;
             WindowState(handle, SW_HIDE, "Window hidden");
             windows.push_front(handle);
