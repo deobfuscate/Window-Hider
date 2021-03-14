@@ -50,6 +50,7 @@ void main() {
     }
     else {
         cout << "Failed to register hotkeys" << endl;
+        exit(EXIT_FAILURE);
     }
 
     while (GetMessage(&msg, NULL, 0, 0) != 0) {
