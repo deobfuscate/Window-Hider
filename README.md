@@ -14,5 +14,6 @@ The latest release can be found [here](https://github.com/deobfuscate/Window-Hid
 * Prevents hiding the same window
 
 ## Planned Features
+* Config file
 * Customizable hotkeys
 * Command line parameters
