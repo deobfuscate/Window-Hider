@@ -43,7 +43,7 @@ void main() {
     MSG msg = { 0 };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     SetConsoleTitleA("Window Hider");
-    cout << "Window Hider v1.0" << endl;
+    cout << "Window Hider v1.1" << endl;
     if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
