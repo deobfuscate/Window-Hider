@@ -49,7 +49,7 @@ void main() {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
     }
     else {
-        cout << "Failed to register hotkeys" << endl;
+        cerr << "Failed to register hotkeys" << endl;
         exit(EXIT_FAILURE);
     }
 
