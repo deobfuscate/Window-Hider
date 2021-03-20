@@ -40,6 +40,13 @@ BOOL WINAPI ExitHandler(DWORD type) {
 void main() {
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
+
+    char cwd[BUFSIZ];
+    GetCurrentDirectoryA(BUFSIZ, cwd);
+    string ini = string(cwd) + "\\winhidecfg.ini";
+
+    int val = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini.c_str());
+
     MSG msg = { 0 };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     SetConsoleTitleA("Window Hider");
