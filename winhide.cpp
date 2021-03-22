@@ -39,9 +39,11 @@ BOOL WINAPI ExitHandler(DWORD type) {
 
 void main() {
     cout << "Window Hider v1.1" << endl;
+    SetConsoleTitleA("Window Hider");
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
 
+    int start_hidden = false;
     char cwd[BUFSIZ];
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini = string(cwd) + "\\winhidecfg.ini";
@@ -51,10 +53,16 @@ void main() {
     if (last_error != 0) {
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     }
-
+    else {
+        start_hidden = val;
+    }
+    if (start_hidden != false) {
+        HWND console = GetConsoleWindow();
+        WindowState(console, SW_HIDE, "Window hidden");
+        windows.push_front(console);
+    }
     MSG msg = { 0 };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
-    SetConsoleTitleA("Window Hider");
     if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
