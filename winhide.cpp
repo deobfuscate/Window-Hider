@@ -4,7 +4,6 @@
 #include "winhide.h"
 
 using namespace std;
-
 list<HWND> windows;
 
 void SingleInstance() {
@@ -38,31 +37,28 @@ BOOL WINAPI ExitHandler(DWORD type) {
 }
 
 void main() {
-    cout << "Window Hider v1.1" << endl;
     SetConsoleTitleA("Window Hider");
+    cout << "Window Hider v1.1" << endl;
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
-
+    MSG msg = { 0 };
+    list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = false;
     char cwd[BUFSIZ];
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini = string(cwd) + "\\winhidecfg.ini";
-
-    int val = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini.c_str());
-    auto last_error = GetLastError();
-    if (last_error != 0) {
+    int start_hidden_ini = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini.c_str());
+    if (GetLastError() != 0)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
-    }
-    else {
-        start_hidden = val;
-    }
+    else
+        start_hidden = start_hidden_ini;
+
     if (start_hidden != false) {
         HWND console = GetConsoleWindow();
         WindowState(console, SW_HIDE, "Window hidden");
         windows.push_front(console);
     }
-    MSG msg = { 0 };
-    list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
+
     if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
