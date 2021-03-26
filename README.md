@@ -11,9 +11,9 @@ The latest release can be found [here](https://github.com/deobfuscate/Window-Hid
 * Ability to hide and show windows
 * Hotkey support
 * Unhide all windows on program exit
+* Config file
 * Prevents hiding the same window
 
 ## Planned Features
-* Config file
 * Customizable hotkeys
 * Command line parameters
