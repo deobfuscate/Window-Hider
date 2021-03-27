@@ -1,14 +1,17 @@
+#define VERSION "1.1"
+
 #define HOTKEY_HIDE 1
 #define HOTKEY_SHOW 2
 
 #define KEY_B 0x42
 #define KEY_C 0x43
 
-#define CLASS_DESKTOP "Progman"
-#define CLASS_DESKTOP_LAYER "WorkerW"
-#define CLASS_TASKBAR "Shell_TrayWnd"
-#define CLASS_START_MENU "Windows.UI.Core.CoreWindow"
-#define CLASS_NOTIFY_PANEL "NotifyIconOverflowWindow"
+// OS elements
+#define CLASS_DESKTOP "Progman" // desktop
+#define CLASS_DESKTOP_LAYER "WorkerW"  // desktop
+#define CLASS_TASKBAR "Shell_TrayWnd" // taskbar
+#define CLASS_START_MENU "Windows.UI.Core.CoreWindow" // start menu / notification center
+#define CLASS_NOTIFY_PANEL "NotifyIconOverflowWindow" // notification area popup
 
 // esures only a single instance is run
 void SingleInstance();

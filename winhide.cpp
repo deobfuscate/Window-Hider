@@ -38,7 +38,7 @@ BOOL WINAPI ExitHandler(DWORD type) {
 
 void main() {
     SetConsoleTitleA("Window Hider");
-    cout << "Window Hider v1.1" << endl;
+    cout << "Window Hider v" << VERSION << endl;
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
     MSG msg = { 0 };
