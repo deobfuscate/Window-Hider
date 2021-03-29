@@ -37,6 +37,7 @@ BOOL WINAPI ExitHandler(DWORD type) {
 }
 
 void main() {
+    char key_code = VkKeyScanExA('A', GetKeyboardLayout(0));
     SetConsoleTitleA("Window Hider");
     cout << "Window Hider v" << VERSION << endl;
     SingleInstance();
@@ -48,6 +49,12 @@ void main() {
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini = string(cwd) + "\\winhidecfg.ini";
     int start_hidden_ini = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini.c_str());
+    if (GetLastError() != 0)
+        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
+    else
+        start_hidden = start_hidden_ini;
+    LPSTR returned;
+    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), returned, 1, ini.c_str());
     if (GetLastError() != 0)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
