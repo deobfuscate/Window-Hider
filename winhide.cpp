@@ -37,7 +37,6 @@ BOOL WINAPI ExitHandler(DWORD type) {
 }
 
 void main() {
-    char key_code = VkKeyScanExA('A', GetKeyboardLayout(0));
     SetConsoleTitleA("Window Hider");
     cout << "Window Hider v" << VERSION << endl;
     SingleInstance();
@@ -53,8 +52,10 @@ void main() {
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
         start_hidden = start_hidden_ini;
-    LPSTR returned;
-    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), returned, 1, ini.c_str());
+    LPSTR returned = new CHAR[BUFSIZ];
+    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), returned, 2, ini.c_str());
+    char final_char = returned[0];
+
     if (GetLastError() != 0)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
@@ -66,7 +67,7 @@ void main() {
         windows.push_front(console);
     }
 
-    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, KEY_B) &&
+    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, VkKeyScanExA(final_char, GetKeyboardLayout(0))) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
     }
