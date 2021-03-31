@@ -44,6 +44,7 @@ void main() {
     MSG msg = { 0 };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = false;
+    char hide_key = KEY_B;
     char cwd[BUFSIZ];
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini = string(cwd) + "\\winhidecfg.ini";
@@ -52,14 +53,14 @@ void main() {
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
         start_hidden = start_hidden_ini;
-    LPSTR returned = new CHAR[BUFSIZ];
-    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), returned, 2, ini.c_str());
-    char final_char = returned[0];
+
+    LPSTR hide_key_ini = new CHAR[BUFSIZ];
+    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), hide_key_ini, 2, ini.c_str());
 
     if (GetLastError() != 0)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
-        start_hidden = start_hidden_ini;
+        hide_key = hide_key_ini[0];
 
     if (start_hidden != false) {
         HWND console = GetConsoleWindow();
@@ -67,7 +68,7 @@ void main() {
         windows.push_front(console);
     }
 
-    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, VkKeyScanExA(final_char, GetKeyboardLayout(0))) &&
+    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, VkKeyScanExA(hide_key, GetKeyboardLayout(0))) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, KEY_C)) {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
     }
