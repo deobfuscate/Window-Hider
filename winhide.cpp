@@ -47,15 +47,15 @@ void main() {
     char hide_key = KEY_B;
     char cwd[BUFSIZ];
     GetCurrentDirectoryA(BUFSIZ, cwd);
-    string ini = string(cwd) + "\\winhidecfg.ini";
-    int start_hidden_ini = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini.c_str());
+    string ini_path = string(cwd) + "\\winhidecfg.ini";
+    int start_hidden_ini = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini_path.c_str());
     if (GetLastError() != 0)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
         start_hidden = start_hidden_ini;
 
     LPSTR hide_key_ini = new CHAR[BUFSIZ];
-    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), hide_key_ini, 2, ini.c_str());
+    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), hide_key_ini, 2, ini_path.c_str());
 
     if (GetLastError() != 0)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
