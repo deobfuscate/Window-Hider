@@ -45,22 +45,31 @@ void main() {
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = false;
     char hide_key = KEY_B;
+    char show_key = KEY_C;
     char cwd[BUFSIZ];
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini_path = string(cwd) + "\\winhidecfg.ini";
     int start_hidden_ini = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini_path.c_str());
     if (GetLastError() != 0)
-        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
+        cerr << "Unable to read configuration file winhidecfg.ini, using defaults1" << endl;
     else
         start_hidden = start_hidden_ini;
 
     LPSTR hide_key_ini = new CHAR[BUFSIZ];
-    char key_code_ini = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), hide_key_ini, 2, ini_path.c_str());
+    char ini_status = GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), hide_key_ini, 2, ini_path.c_str());
 
     if (GetLastError() != 0)
-        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
+        cerr << "Unable to read configuration file winhidecfg.ini, using defaults2" << endl;
     else
         hide_key = hide_key_ini[0];
+
+    LPSTR show_key_ini = new CHAR[BUFSIZ];
+    ini_status = GetPrivateProfileStringA("Settings", "ShowKey", LPCSTR(KEY_C), show_key_ini, 2, ini_path.c_str());
+
+    if (GetLastError() != 0)
+        cerr << "Unable to read configuration file winhidecfg.ini, using defaults3" << endl;
+    else
+        show_key = show_key_ini[0];
 
     if (start_hidden != false) {
         HWND console = GetConsoleWindow();
