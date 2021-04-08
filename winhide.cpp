@@ -63,7 +63,7 @@ void main() {
     if (last_error != 0 && last_error != ERROR_MORE_DATA)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
-        hide_key = hide_key_ini[0];
+        hide_key = VkKeyScanExA(hide_key_ini[0], GetKeyboardLayout(0));
 
     LPSTR show_key_ini = new CHAR[BUFSIZ];
     GetPrivateProfileStringA("Settings", "ShowKey", LPCSTR(KEY_C), show_key_ini, 2, ini_path.c_str());
@@ -71,7 +71,7 @@ void main() {
     if (last_error != 0 && last_error != ERROR_MORE_DATA)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
-        show_key = show_key_ini[0];
+        show_key = VkKeyScanExA(show_key_ini[0], GetKeyboardLayout(0));
 
 
 
@@ -81,8 +81,8 @@ void main() {
         windows.push_front(console);
     }
 
-    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, VkKeyScanExA(hide_key, GetKeyboardLayout(0))) &&
-        RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, VkKeyScanExA(show_key, GetKeyboardLayout(0)))) {
+    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, hide_key) &&
+        RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, show_key)) {
         cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
     }
     else {
