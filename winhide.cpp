@@ -6,6 +6,18 @@
 using namespace std;
 list<HWND> windows;
 
+char ReadIni(LPCSTR category, LPCSTR key, int default_value, const char *ini_path) {
+    char tmp;
+    LPSTR ini_value = new CHAR[BUFSIZ];
+    GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
+    auto last_error = GetLastError();
+    if (last_error != 0 && last_error != ERROR_MORE_DATA)
+        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
+    else
+        tmp = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
+    return tmp;
+}
+
 void SingleInstance() {
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window Hider");
     if (current_mutex != 0 && GetLastError() == ERROR_ALREADY_EXISTS)
@@ -57,24 +69,9 @@ void main() {
     else
         start_hidden = start_hidden_ini;
 
-    LPSTR hide_key_ini = new CHAR[BUFSIZ];
-    GetPrivateProfileStringA("Settings", "HideKey", LPCSTR(KEY_B), hide_key_ini, 2, ini_path.c_str());
-    last_error = GetLastError();
-    if (last_error != 0 && last_error != ERROR_MORE_DATA)
-        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
-    else
-        hide_key = VkKeyScanExA(hide_key_ini[0], GetKeyboardLayout(0));
-
-    LPSTR show_key_ini = new CHAR[BUFSIZ];
-    GetPrivateProfileStringA("Settings", "ShowKey", LPCSTR(KEY_C), show_key_ini, 2, ini_path.c_str());
-    last_error = GetLastError();
-    if (last_error != 0 && last_error != ERROR_MORE_DATA)
-        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
-    else
-        show_key = VkKeyScanExA(show_key_ini[0], GetKeyboardLayout(0));
-
-
-
+    hide_key = ReadIni("Settings", "HideKey", KEY_B, ini_path.c_str());
+    show_key = ReadIni("Settings", "ShowKey", KEY_C, ini_path.c_str());
+    
     if (start_hidden != false) {
         HWND console = GetConsoleWindow();
         WindowState(console, SW_HIDE, "Window hidden");
