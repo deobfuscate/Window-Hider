@@ -7,7 +7,7 @@ using namespace std;
 list<HWND> windows;
 
 char ReadIni(LPCSTR category, LPCSTR key, int default_value, const char *ini_path) {
-    char tmp;
+    char tmp = '\0';
     LPSTR ini_value = new CHAR[BUFSIZ];
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
     auto last_error = GetLastError();
@@ -56,9 +56,7 @@ void main() {
     MSG msg = { 0 };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = false;
-    char hide_key = KEY_B;
-    char show_key = KEY_C;
-    char cwd[BUFSIZ];
+    char hide_key = KEY_B, show_key = KEY_C, cwd[BUFSIZ];
 
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini_path = string(cwd) + "\\winhidecfg.ini";
