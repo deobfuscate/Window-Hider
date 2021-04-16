@@ -7,15 +7,15 @@ using namespace std;
 list<HWND> windows;
 
 char ReadIni(LPCSTR category, LPCSTR key, int default_value, const char *ini_path) {
-    char tmp = '\0';
+    char value = '\0';
     LPSTR ini_value = new CHAR[BUFSIZ];
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
     auto last_error = GetLastError();
     if (last_error != 0 && last_error != ERROR_MORE_DATA)
         cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
     else
-        tmp = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
-    return tmp;
+        value = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
+    return value;
 }
 
 void SingleInstance() {
