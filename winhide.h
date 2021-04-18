@@ -14,7 +14,7 @@
 #define CLASS_NOTIFY_PANEL "NotifyIconOverflowWindow" // notification area popup
 
 // reads the specified value from an ini file and returns it
-char ReadIni(LPCSTR category, LPCSTR key, int default_value, const char* ini_path);
+char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* ini_path);
 
 // esures only a single instance is run
 void SingleInstance();

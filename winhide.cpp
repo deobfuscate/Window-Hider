@@ -6,7 +6,18 @@
 using namespace std;
 list<HWND> windows;
 
-char ReadIni(LPCSTR category, LPCSTR key, int default_value, const char *ini_path) {
+char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
+    int value = -1;
+    int ini_value = GetPrivateProfileIntA(category, key, default_value, ini_path);
+    auto last_error = GetLastError();
+    if (last_error != 0 && last_error != ERROR_MORE_DATA)
+        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
+    else
+        value = ini_value;
+    return value;
+}
+
+char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
     char value = '\0';
     LPSTR ini_value = new CHAR[BUFSIZ];
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
@@ -60,15 +71,10 @@ void main() {
 
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini_path = string(cwd) + "\\winhidecfg.ini";
-    int start_hidden_ini = GetPrivateProfileIntA("Settings", "StartHidden", 0, ini_path.c_str());
-    auto last_error = GetLastError();
-    if (last_error != 0 && last_error != ERROR_MORE_DATA)
-        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
-    else
-        start_hidden = start_hidden_ini;
 
-    hide_key = ReadIni("Settings", "HideKey", KEY_B, ini_path.c_str());
-    show_key = ReadIni("Settings", "ShowKey", KEY_C, ini_path.c_str());
+    start_hidden = ReadIniInt("Settings", "StartHidden", 0, ini_path.c_str());
+    hide_key = ReadIniString("Settings", "HideKey", KEY_B, ini_path.c_str());
+    show_key = ReadIniString("Settings", "ShowKey", KEY_C, ini_path.c_str());
     
     if (start_hidden != false) {
         HWND console = GetConsoleWindow();
