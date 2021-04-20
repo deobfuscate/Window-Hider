@@ -57,9 +57,10 @@ BOOL WINAPI ExitHandler(DWORD type) {
         }
         exit(EXIT_SUCCESS);
     }
+    return true;
 }
 
-void main() {
+int main() {
     SetConsoleTitleA("Window Hider");
     cout << "Window Hider v" << VERSION << endl;
     SingleInstance();
@@ -107,4 +108,5 @@ void main() {
             windows.pop_front();
         }
     }
+    return true;
 }
