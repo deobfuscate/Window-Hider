@@ -60,6 +60,11 @@ BOOL WINAPI ExitHandler(DWORD type) {
     return true;
 }
 
+BOOL FileExists(string path) {
+    DWORD attrib = GetFileAttributesA(path.c_str());
+    return (attrib != INVALID_FILE_ATTRIBUTES && !(attrib & FILE_ATTRIBUTE_DIRECTORY));
+}
+
 int main() {
     SetConsoleTitleA("Window Hider");
     cout << "Window Hider v" << VERSION << endl;
@@ -73,9 +78,11 @@ int main() {
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini_path = string(cwd) + "\\winhidecfg.ini";
 
-    start_hidden = ReadIniInt("Settings", "StartHidden", 0, ini_path.c_str());
-    hide_key = ReadIniString("Settings", "HideKey", KEY_B, ini_path.c_str());
-    show_key = ReadIniString("Settings", "ShowKey", KEY_C, ini_path.c_str());
+    if (FileExists(ini_path)) {
+        start_hidden = ReadIniInt("Settings", "StartHidden", 0, ini_path.c_str());
+        hide_key = ReadIniString("Settings", "HideKey", KEY_B, ini_path.c_str());
+        show_key = ReadIniString("Settings", "ShowKey", KEY_C, ini_path.c_str());
+    }
     
     if (start_hidden != false) {
         HWND console = GetConsoleWindow();
