@@ -92,7 +92,7 @@ int main() {
 
     if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, hide_key) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, show_key)) {
-        cout << "Alt+B (hide window) and Alt-C (show window) hotkeys registered" << endl;
+        cout << hide_key << " (hide window) and " << show_key << " (show window) hotkeys registered" << endl;
     }
     else {
         cerr << "Failed to register hotkeys" << endl;
