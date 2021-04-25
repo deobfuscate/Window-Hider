@@ -11,7 +11,7 @@ char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_
     int ini_value = GetPrivateProfileIntA(category, key, default_value, ini_path);
     auto last_error = GetLastError();
     if (last_error != 0 && last_error != ERROR_MORE_DATA)
-        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
+        cerr << "Unable to find key, using default" << endl;
     else
         value = ini_value;
     return value;
@@ -23,7 +23,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
     auto last_error = GetLastError();
     if (last_error != 0 && last_error != ERROR_MORE_DATA)
-        cerr << "Unable to read configuration file winhidecfg.ini, using defaults" << endl;
+        cerr << "Unable to find key, using default" << endl;
     else
         value = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
     return value;
@@ -72,19 +72,18 @@ int main() {
     SetConsoleCtrlHandler(ExitHandler, TRUE);
     MSG msg = { 0 };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
-    int start_hidden = false;
+    int start_hidden = 0;
     char hide_key = KEY_B, show_key = KEY_C, cwd[BUFSIZ];
-
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini_path = string(cwd) + "\\winhidecfg.ini";
 
     if (FileExists(ini_path)) {
         start_hidden = ReadIniInt("Settings", "StartHidden", 0, ini_path.c_str());
-        hide_key = ReadIniString("Settings", "HideKey", KEY_B, ini_path.c_str());
-        show_key = ReadIniString("Settings", "ShowKey", KEY_C, ini_path.c_str());
+        hide_key = ReadIniString("HideHotKey", "Key", KEY_B, ini_path.c_str());
+        show_key = ReadIniString("ShowHotKey", "Key", KEY_C, ini_path.c_str());
     }
     
-    if (start_hidden != false) {
+    if (start_hidden != 0) {
         HWND console = GetConsoleWindow();
         WindowState(console, SW_HIDE, "Window hidden");
         windows.push_front(console);
