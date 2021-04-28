@@ -72,8 +72,13 @@ int main() {
     SetConsoleCtrlHandler(ExitHandler, TRUE);
     MSG msg = { 0 };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
-    int start_hidden = 0;
-    char hide_key = KEY_B, show_key = KEY_C, cwd[BUFSIZ];
+    int start_hidden = 0,
+        mod_ctrl = 0,
+        mod_alt = 0,
+        mod_shift = 0;
+    char hide_key = KEY_B,
+        show_key = KEY_C,
+        cwd[BUFSIZ];
     GetCurrentDirectoryA(BUFSIZ, cwd);
     string ini_path = string(cwd) + "\\winhidecfg.ini";
 
