@@ -85,7 +85,9 @@ int main() {
     if (FileExists(ini_path)) {
         start_hidden = ReadIniInt("Settings", "StartHidden", 0, ini_path.c_str());
         hide_key = ReadIniString("HideHotKey", "Key", KEY_B, ini_path.c_str());
+        if (hide_key == -1) hide_key = KEY_B;
         show_key = ReadIniString("ShowHotKey", "Key", KEY_C, ini_path.c_str());
+        if (show_key == -1) show_key = KEY_C;
     }
     
     if (start_hidden != 0) {
