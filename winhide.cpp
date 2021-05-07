@@ -91,13 +91,19 @@ int main() {
         hide_modifiers |= ReadIniInt("HideHotKey", "Ctrl", 0, ini_path.c_str());
         hide_modifiers |= ReadIniInt("HideHotKey", "Shift", 0, ini_path.c_str());
         hide_key = ReadIniString("HideHotKey", "Key", KEY_B, ini_path.c_str());
-        if (hide_key == -1) hide_key = KEY_B;
+        if (hide_key == -1 || hide_modifiers == 0) {
+            hide_modifiers = MOD_ALT;
+            hide_key = KEY_B; 
+        }
 
         show_modifiers |= ReadIniInt("ShowHotKey", "Alt", 0, ini_path.c_str());
         show_modifiers |= ReadIniInt("ShowHotKey", "Ctrl", 0, ini_path.c_str());
         show_modifiers |= ReadIniInt("ShowHotKey", "Shift", 0, ini_path.c_str());
         show_key = ReadIniString("ShowHotKey", "Key", KEY_C, ini_path.c_str());
-        if (show_key == -1) show_key = KEY_C;
+        if (show_key == -1 || show_modifiers == 0) {
+            show_modifiers = MOD_ALT;
+            show_key = KEY_C; 
+        }
     }
     
     if (start_hidden != 0) {
@@ -106,8 +112,8 @@ int main() {
         windows.push_front(console);
     }
 
-    if (RegisterHotKey(NULL, HOTKEY_HIDE, MOD_ALT | MOD_NOREPEAT, hide_key) &&
-        RegisterHotKey(NULL, HOTKEY_SHOW, MOD_ALT | MOD_NOREPEAT, show_key)) {
+    if (RegisterHotKey(NULL, HOTKEY_HIDE, hide_modifiers | MOD_NOREPEAT, hide_key) &&
+        RegisterHotKey(NULL, HOTKEY_SHOW, show_modifiers | MOD_NOREPEAT, show_key)) {
         cout << hide_key << " (hide window) and " << show_key << " (show window) hotkeys registered" << endl;
     }
     else {
