@@ -94,6 +94,7 @@ int main() {
         if (hide_key == -1 || hide_modifiers == 0) {
             hide_modifiers = MOD_ALT;
             hide_key = KEY_B; 
+            cerr << "Invalid hide key or no modifiers specified, using defaults" << endl;
         }
 
         show_modifiers |= ReadIniInt("ShowHotKey", "Alt", 0, ini_path.c_str());
@@ -103,6 +104,7 @@ int main() {
         if (show_key == -1 || show_modifiers == 0) {
             show_modifiers = MOD_ALT;
             show_key = KEY_C; 
+            cerr << "Invalid show key or no modifiers specified, using defaults" << endl;
         }
     }
     
