@@ -22,7 +22,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
     LPSTR ini_value = new CHAR[BUFSIZ];
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
     auto last_error = GetLastError();
-    if (last_error != false && last_error != ERROR_MORE_DATA)
+    if (last_error != 0 && last_error != ERROR_MORE_DATA)
         cerr << "Unable to find key, using default" << endl;
     else
         value = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
@@ -31,7 +31,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
 
 void SingleInstance() {
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window Hider");
-    if (current_mutex != false && GetLastError() == ERROR_ALREADY_EXISTS)
+    if (current_mutex != 0 && GetLastError() == ERROR_ALREADY_EXISTS)
     {
         CloseHandle(current_mutex);
         exit(EXIT_FAILURE);
