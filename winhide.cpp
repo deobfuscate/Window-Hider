@@ -86,10 +86,12 @@ int main() {
 
     if (FileExists(ini_path)) {
         start_hidden = ReadIniInt("Settings", "StartHidden", 0, ini_path.c_str());
-
-        hide_modifiers |= ReadIniInt("HideHotKey", "Alt", 0, ini_path.c_str());
-        hide_modifiers |= ReadIniInt("HideHotKey", "Ctrl", 0, ini_path.c_str());
-        hide_modifiers |= ReadIniInt("HideHotKey", "Shift", 0, ini_path.c_str());
+        if (ReadIniInt("HideHotKey", "Alt", 0, ini_path.c_str()) == 1)
+            hide_modifiers |= MOD_ALT;
+        if (ReadIniInt("HideHotKey", "Ctrl", 0, ini_path.c_str()) == 1)
+            hide_modifiers |= MOD_CONTROL;
+        if (ReadIniInt("HideHotKey", "Shift", 0, ini_path.c_str()) == 1)
+            hide_modifiers |= MOD_SHIFT;
         hide_key = ReadIniString("HideHotKey", "Key", KEY_B, ini_path.c_str());
         if (hide_key == -1 || hide_modifiers == 0) {
             hide_modifiers = MOD_ALT;
@@ -97,9 +99,12 @@ int main() {
             cerr << "Invalid hide key or no modifiers specified, using defaults" << endl;
         }
 
-        show_modifiers |= ReadIniInt("ShowHotKey", "Alt", 0, ini_path.c_str());
-        show_modifiers |= ReadIniInt("ShowHotKey", "Ctrl", 0, ini_path.c_str());
-        show_modifiers |= ReadIniInt("ShowHotKey", "Shift", 0, ini_path.c_str());
+        if (ReadIniInt("ShowHotKey", "Alt", 0, ini_path.c_str()) == 1)
+            show_modifiers |= MOD_ALT;
+        if (ReadIniInt("ShowHotKey", "Ctrl", 0, ini_path.c_str()) == 1)
+            show_modifiers |= MOD_CONTROL;
+        if (ReadIniInt("ShowHotKey", "Shift", 0, ini_path.c_str()) == 1)
+            show_modifiers |= MOD_SHIFT;
         show_key = ReadIniString("ShowHotKey", "Key", KEY_C, ini_path.c_str());
         if (show_key == -1 || show_modifiers == 0) {
             show_modifiers = MOD_ALT;
