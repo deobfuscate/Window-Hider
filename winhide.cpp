@@ -22,7 +22,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
     LPSTR ini_value = new CHAR[BUFSIZ];
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
     auto last_error = GetLastError();
-    if (last_error != 0 && last_error != ERROR_MORE_DATA)
+    if (last_error != FALSE && last_error != ERROR_MORE_DATA)
         cerr << "Unable to find key, using default" << endl;
     else
         value = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
@@ -70,7 +70,7 @@ int main() {
     cout << "Window Hider v" << VERSION << endl;
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
-    MSG msg = { 0 };
+    MSG msg = { FALSE };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = 0,
         mod_ctrl = 0,
@@ -113,7 +113,7 @@ int main() {
         }
     }
     
-    if (start_hidden != 0) {
+    if (start_hidden != FALSE) {
         HWND console = GetConsoleWindow();
         WindowState(console, SW_HIDE, "Window hidden");
         windows.push_front(console);
