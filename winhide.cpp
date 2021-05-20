@@ -112,6 +112,11 @@ int main() {
             cerr << "Invalid show key or no modifiers specified, using defaults" << endl;
         }
     }
+    else {
+        cout << "Could not find configuration file winhidecfg.ini, using default settings" << endl;
+        show_modifiers = MOD_ALT;
+        hide_modifiers = MOD_ALT;
+    }
     
     if (start_hidden != FALSE) {
         HWND console = GetConsoleWindow();
