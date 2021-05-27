@@ -126,7 +126,7 @@ int main() {
 
     if (RegisterHotKey(NULL, HOTKEY_HIDE, hide_modifiers | MOD_NOREPEAT, hide_key) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, show_modifiers | MOD_NOREPEAT, show_key)) {
-        cout << hide_key << " (hide window) and " << show_key << " (show window) hotkeys registered" << endl;
+        cout << "Hide Window and Show Window hotkeys registered" << endl;
     }
     else {
         cerr << "Failed to register hotkeys" << endl;
