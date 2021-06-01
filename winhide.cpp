@@ -96,7 +96,7 @@ int main() {
         if (hide_key == -1 || hide_modifiers == 0) {
             hide_modifiers = MOD_ALT;
             hide_key = KEY_B; 
-            cerr << "Invalid hide key or no modifiers specified, using defaults" << endl;
+            cerr << "Invalid hide key or no modifiers specified, using defaults. Hide window: Alt-B, Show window: Alt-C" << endl;
         }
 
         if (ReadIniInt("ShowHotKey", "Alt", 0, ini_path.c_str()) == 1)
@@ -109,11 +109,11 @@ int main() {
         if (show_key == -1 || show_modifiers == 0) {
             show_modifiers = MOD_ALT;
             show_key = KEY_C; 
-            cerr << "Invalid show key or no modifiers specified, using defaults" << endl;
+            cerr << "Invalid show key or no modifiers specified, using defaults. Hide window: Alt-B, Show window: Alt-C" << endl;
         }
     }
     else {
-        cout << "Could not find configuration file winhidecfg.ini, using default settings" << endl;
+        cout << "Could not find configuration file winhidecfg.ini, using default settings. Hide window: Alt-B, Show window: Alt-C" << endl;
         show_modifiers = MOD_ALT;
         hide_modifiers = MOD_ALT;
     }
