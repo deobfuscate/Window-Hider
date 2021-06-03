@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include <windows.h>
+#include <string>
 #include "winhide.h"
 
 using namespace std;
@@ -92,7 +93,7 @@ int main() {
             hide_modifiers |= MOD_CONTROL;
         if (ReadIniInt("HideHotKey", "Shift", 0, ini_path.c_str()) == 1)
             hide_modifiers |= MOD_SHIFT;
-        hide_key = ReadIniString("HideHotKey", "Key", KEY_B, ini_path.c_str());
+        hide_key = ReadIniString("HideHotKey", "Key", NULL, ini_path.c_str());
         if (hide_key == -1 || hide_modifiers == 0) {
             hide_modifiers = MOD_ALT;
             hide_key = KEY_B; 
@@ -105,7 +106,7 @@ int main() {
             show_modifiers |= MOD_CONTROL;
         if (ReadIniInt("ShowHotKey", "Shift", 0, ini_path.c_str()) == 1)
             show_modifiers |= MOD_SHIFT;
-        show_key = ReadIniString("ShowHotKey", "Key", KEY_C, ini_path.c_str());
+        show_key = ReadIniString("ShowHotKey", "Key", NULL, ini_path.c_str());
         if (show_key == -1 || show_modifiers == 0) {
             show_modifiers = MOD_ALT;
             show_key = KEY_C; 
@@ -129,7 +130,7 @@ int main() {
         cout << "Hide Window and Show Window hotkeys registered" << endl;
     }
     else {
-        cerr << "Failed to register hotkeys" << endl;
+        cerr << "Failed to register hotkeys, exiting" << endl;
         exit(EXIT_FAILURE);
     }
 
