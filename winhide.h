@@ -1,4 +1,4 @@
-#define VERSION "1.1"
+#define VERSION "1.2"
 
 #define HOTKEY_HIDE 1
 #define HOTKEY_SHOW 2

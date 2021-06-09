@@ -11,9 +11,7 @@ char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_
     int value = -1;
     int ini_value = GetPrivateProfileIntA(category, key, default_value, ini_path);
     auto last_error = GetLastError();
-    if (last_error != false && last_error != ERROR_MORE_DATA)
-        cerr << "Unable to find key, using default" << endl;
-    else
+    if (last_error == false || last_error == ERROR_MORE_DATA)
         value = ini_value;
     return value;
 }
@@ -23,9 +21,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
     LPSTR ini_value = new CHAR[BUFSIZ];
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
     auto last_error = GetLastError();
-    if (last_error != FALSE && last_error != ERROR_MORE_DATA)
-        cerr << "Unable to find key, using default" << endl;
-    else
+    if (last_error == false || last_error == ERROR_MORE_DATA)
         value = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
     return value;
 }
