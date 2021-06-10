@@ -6,6 +6,8 @@
 #define KEY_B 0x42
 #define KEY_C 0x43
 
+#define NO_MOD 0
+
 // OS elements
 #define CLASS_DESKTOP "Progman" // desktop
 #define CLASS_DESKTOP_LAYER "WorkerW"  // desktop
