@@ -7,6 +7,7 @@
 #define KEY_C 0x43
 
 #define NO_MOD 0
+#define NULL_CHAR '\0'
 
 // OS elements
 #define CLASS_DESKTOP "Progman" // desktop
