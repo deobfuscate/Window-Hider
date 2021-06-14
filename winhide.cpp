@@ -90,7 +90,7 @@ int main() {
         if (ReadIniInt("HideHotKey", "Shift", 0, ini_path.c_str()) == 1)
             hide_modifiers |= MOD_SHIFT;
         hide_key = ReadIniString("HideHotKey", "Key", NULL, ini_path.c_str());
-        if (hide_key == -1 || hide_key == NULL_CHAR || hide_modifiers == NO_MOD) {
+        if (hide_key == KEY_INVALID || hide_key == NULL_CHAR || hide_modifiers == NO_MOD) {
             hide_modifiers = MOD_ALT;
             hide_key = KEY_B; 
             cerr << "Invalid hide key or no modifiers specified, using default: Alt-B" << endl;
@@ -103,7 +103,7 @@ int main() {
         if (ReadIniInt("ShowHotKey", "Shift", 0, ini_path.c_str()) == 1)
             show_modifiers |= MOD_SHIFT;
         show_key = ReadIniString("ShowHotKey", "Key", NULL, ini_path.c_str());
-        if (show_key == -1 || show_key == NULL_CHAR || show_modifiers == NO_MOD) {
+        if (show_key == KEY_INVALID || show_key == NULL_CHAR || show_modifiers == NO_MOD) {
             show_modifiers = MOD_ALT;
             show_key = KEY_C; 
             cerr << "Invalid show key or no modifiers specified, using default: Alt-C" << endl;

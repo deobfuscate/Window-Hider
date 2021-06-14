@@ -5,6 +5,7 @@
 
 #define KEY_B 0x42
 #define KEY_C 0x43
+#define KEY_INVALID -1
 
 #define NO_MOD 0
 #define NULL_CHAR '\0'
