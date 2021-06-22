@@ -48,7 +48,7 @@ void WindowState(HWND handle, int state, string action_str) {
 
 BOOL WINAPI ExitHandler(DWORD type) {
     if (type == CTRL_C_EVENT || type == CTRL_CLOSE_EVENT) {
-        for (auto window : windows){
+        for (HWND window : windows){
             WindowState(window, SW_SHOW, "Window shown");
             windows.pop_front();
         }
