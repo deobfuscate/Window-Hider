@@ -70,9 +70,6 @@ int main() {
     MSG msg = { FALSE };
     list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = 0,
-        mod_ctrl = 0,
-        mod_alt = 0,
-        mod_shift = 0,
         show_modifiers = NO_MOD,
         hide_modifiers = NO_MOD;
     char hide_key = KEY_B,
