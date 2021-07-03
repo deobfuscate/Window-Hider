@@ -75,7 +75,10 @@ int main() {
     char hide_key = KEY_B,
         show_key = KEY_C,
         cwd[BUFSIZ];
-    GetCurrentDirectoryA(BUFSIZ, cwd);
+    if (GetCurrentDirectoryA(BUFSIZ, cwd) == 0) {
+        cerr << "Could not obtain current working directory, exiting" << endl;
+        exit(EXIT_FAILURE);
+    }
     string ini_path = string(cwd) + "\\winhidecfg.ini";
 
     if (FileExists(ini_path)) {
