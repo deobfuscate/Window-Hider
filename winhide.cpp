@@ -8,7 +8,7 @@ using namespace std;
 list<HWND> windows;
 
 char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
-    int value = -1;
+    int value = KEY_INVALID;
     int ini_value = GetPrivateProfileIntA(category, key, default_value, ini_path);
     auto last_error = GetLastError();
     if (last_error == false || last_error == ERROR_MORE_DATA)
@@ -28,8 +28,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
 
 void SingleInstance() {
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window Hider");
-    if (current_mutex != 0 && GetLastError() == ERROR_ALREADY_EXISTS)
-    {
+    if (current_mutex != 0 && GetLastError() == ERROR_ALREADY_EXISTS) {
         CloseHandle(current_mutex);
         exit(EXIT_FAILURE);
     }
