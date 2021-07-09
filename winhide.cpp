@@ -129,7 +129,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    while (GetMessage(&msg, NULL, 0, 0) != 0) {
+    while (GetMessage(&msg, NULL, FALSE, FALSE) != FALSE) {
         if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_HIDE) {
             HWND handle = GetForegroundWindow();
             char classname[BUFSIZ];
