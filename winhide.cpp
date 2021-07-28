@@ -74,7 +74,7 @@ int main() {
     char hide_key = KEY_B,
         show_key = KEY_C,
         cwd[BUFSIZ];
-    if (GetCurrentDirectoryA(BUFSIZ, cwd) == 0) {
+    if (GetCurrentDirectoryA(BUFSIZ, cwd) == FALSE) {
         cerr << "Could not obtain current working directory, exiting" << endl;
         exit(EXIT_FAILURE);
     }
