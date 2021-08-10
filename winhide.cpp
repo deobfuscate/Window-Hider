@@ -114,7 +114,7 @@ int main() {
         hide_modifiers = MOD_ALT;
     }
     
-    if (start_hidden != FALSE) {
+    if (start_hidden) {
         HWND console = GetConsoleWindow();
         WindowState(console, SW_HIDE, "Window hidden");
         windows.push_front(console);
