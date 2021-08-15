@@ -113,12 +113,6 @@ int main() {
         show_modifiers = MOD_ALT;
         hide_modifiers = MOD_ALT;
     }
-    
-    if (start_hidden) {
-        HWND console = GetConsoleWindow();
-        WindowState(console, SW_HIDE, "Window hidden");
-        windows.push_front(console);
-    }
 
     if (RegisterHotKey(NULL, HOTKEY_HIDE, hide_modifiers | MOD_NOREPEAT, hide_key) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, show_modifiers | MOD_NOREPEAT, show_key)) {
@@ -127,6 +121,12 @@ int main() {
     else {
         cerr << "Failed to register hotkeys, exiting" << endl;
         exit(EXIT_FAILURE);
+    }
+
+    if (start_hidden) {
+        HWND console = GetConsoleWindow();
+        WindowState(console, SW_HIDE, "Window hidden");
+        windows.push_front(console);
     }
 
     while (GetMessage(&msg, NULL, FALSE, FALSE) != FALSE) {
