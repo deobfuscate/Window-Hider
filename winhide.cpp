@@ -88,6 +88,8 @@ int main() {
             hide_modifiers |= MOD_CONTROL;
         if (ReadIniInt("HideHotKey", "Shift", NO_MOD, ini_path.c_str()) == TRUE)
             hide_modifiers |= MOD_SHIFT;
+        if (ReadIniInt("HideHotKey", "WinKey", NO_MOD, ini_path.c_str()) == TRUE)
+            hide_modifiers |= MOD_WIN;
         hide_key = ReadIniString("HideHotKey", "Key", NULL, ini_path.c_str());
         if (hide_key == KEY_INVALID || hide_key == NULL_CHAR || hide_modifiers == NO_MOD) {
             hide_modifiers = MOD_ALT;
@@ -101,6 +103,8 @@ int main() {
             show_modifiers |= MOD_CONTROL;
         if (ReadIniInt("ShowHotKey", "Shift", NO_MOD, ini_path.c_str()) == TRUE)
             show_modifiers |= MOD_SHIFT;
+        if (ReadIniInt("ShowHotKey", "WinKey", NO_MOD, ini_path.c_str()) == TRUE)
+            show_modifiers |= MOD_WIN;
         show_key = ReadIniString("ShowHotKey", "Key", NULL, ini_path.c_str());
         if (show_key == KEY_INVALID || show_key == NULL_CHAR || show_modifiers == NO_MOD) {
             show_modifiers = MOD_ALT;
