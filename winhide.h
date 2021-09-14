@@ -18,6 +18,9 @@
 #define CLASS_NOTIFY_PANEL "NotifyIconOverflowWindow" // notification area popup
 
 // reads the specified value from an ini file and returns it
+char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_path);
+
+// reads the specified value from an ini file and returns it
 char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* ini_path);
 
 // esures only a single instance is run
@@ -28,3 +31,6 @@ void WindowState(HWND handle, int state, std::string action_str);
 
 // handles the windows program exiting event to unhide all windows
 BOOL WINAPI ExitHandler(DWORD type);
+
+// determines if given file exists
+BOOL FileExists(string path);
