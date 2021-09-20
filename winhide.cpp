@@ -7,6 +7,7 @@
 using namespace std;
 list<HWND> windows;
 
+// reads the specified value from an ini file and returns it
 char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
     int value = KEY_INVALID;
     int ini_value = GetPrivateProfileIntA(category, key, default_value, ini_path);
@@ -16,6 +17,7 @@ char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_
     return value;
 }
 
+// reads the specified value from an ini file and returns it
 char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
     char value = '\0';
     LPSTR ini_value = new CHAR[BUFSIZ];
@@ -26,6 +28,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
     return value;
 }
 
+// esures only a single instance is run
 void SingleInstance() {
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window Hider");
     if (current_mutex != 0 && GetLastError() == ERROR_ALREADY_EXISTS) {
@@ -34,6 +37,7 @@ void SingleInstance() {
     }
 }
 
+// modifies the window state of the given handle
 void WindowState(HWND handle, int state, string action_str) {
     ShowWindow(handle, state);
     if (GetWindowTextLengthA(handle) == 0)
@@ -45,6 +49,7 @@ void WindowState(HWND handle, int state, string action_str) {
     }
 }
 
+// handles the windows program exiting event to unhide all windows
 BOOL WINAPI ExitHandler(DWORD type) {
     if (type == CTRL_C_EVENT || type == CTRL_CLOSE_EVENT) {
         for (HWND window : windows){
@@ -56,6 +61,7 @@ BOOL WINAPI ExitHandler(DWORD type) {
     return true;
 }
 
+// determines if given file exists
 BOOL FileExists(string path) {
     DWORD attrib = GetFileAttributesA(path.c_str());
     return (attrib != INVALID_FILE_ATTRIBUTES && !(attrib & FILE_ATTRIBUTE_DIRECTORY));
