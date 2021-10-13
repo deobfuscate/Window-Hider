@@ -1,3 +1,4 @@
+using namespace std; 
 #define VERSION "1.2"
 
 #define HOTKEY_HIDE 1
@@ -27,7 +28,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
 void SingleInstance();
 
 // modifies the window state of the given handle
-void WindowState(HWND handle, int state, std::string action_str);
+void WindowState(HWND handle, int state, string action_str);
 
 // handles the windows program exiting event to unhide all windows
 BOOL WINAPI ExitHandler(DWORD type);
