@@ -13,3 +13,6 @@ The latest release can be found [here](https://github.com/deobfuscate/Window-Hid
 * Customizable hotkeys (including modifiers)
 * Prevents hiding the same window
 * Unhide all windows on program exit
+
+## Planned Features
+* Removes closed windows from hidden window list
