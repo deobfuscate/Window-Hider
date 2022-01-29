@@ -88,6 +88,7 @@ int main() {
 
     if (FileExists(ini_path)) {
         start_hidden = ReadIniInt("Settings", "StartHidden", FALSE, ini_path.c_str());
+
         if (ReadIniInt("HideHotKey", "Alt", NO_MOD, ini_path.c_str()) == TRUE)
             hide_modifiers |= MOD_ALT;
         if (ReadIniInt("HideHotKey", "Ctrl", NO_MOD, ini_path.c_str()) == TRUE)
@@ -155,5 +156,5 @@ int main() {
             windows.pop_front();
         }
     }
-    return true;
+    return EXIT_SUCCESS;
 }
