@@ -24,7 +24,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
     GetPrivateProfileStringA(category, key, LPCSTR(default_value), ini_value, 2, ini_path);
     auto last_error = GetLastError();
     if (last_error == false || last_error == ERROR_MORE_DATA)
-        value = VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
+        value = (char)VkKeyScanExA(ini_value[0], GetKeyboardLayout(0));
     return value;
 }
 
@@ -77,8 +77,8 @@ int main() {
     int start_hidden = 0,
         show_modifiers = NO_MOD,
         hide_modifiers = NO_MOD;
-    char hide_key = KEY_B,
-        show_key = KEY_C,
+    char hide_key = KEY_C,
+        show_key = KEY_V,
         cwd[BUFSIZ];
     if (GetCurrentDirectoryA(BUFSIZ, cwd) == FALSE) {
         cerr << "Could not obtain current working directory, exiting" << endl;
@@ -99,9 +99,8 @@ int main() {
             hide_modifiers |= MOD_WIN;
         hide_key = ReadIniString("HideHotKey", "Key", NULL, ini_path.c_str());
         if (hide_key == KEY_INVALID || hide_key == NULL_CHAR || hide_modifiers == NO_MOD) {
-            hide_modifiers = MOD_ALT;
-            hide_key = KEY_B; 
-            cerr << "Invalid hide key or no modifiers specified, using default: Alt-B" << endl;
+            hide_modifiers = MOD_CONTROL | MOD_SHIFT;
+            cerr << "Invalid hide key or no modifiers specified, using default: Ctrl+Shift+C" << endl;
         }
 
         if (ReadIniInt("ShowHotKey", "Alt", NO_MOD, ini_path.c_str()) == TRUE)
@@ -114,15 +113,14 @@ int main() {
             show_modifiers |= MOD_WIN;
         show_key = ReadIniString("ShowHotKey", "Key", NULL, ini_path.c_str());
         if (show_key == KEY_INVALID || show_key == NULL_CHAR || show_modifiers == NO_MOD) {
-            show_modifiers = MOD_ALT;
-            show_key = KEY_C; 
-            cerr << "Invalid show key or no modifiers specified, using default: Alt-C" << endl;
+            show_modifiers = MOD_CONTROL | MOD_SHIFT;
+            cerr << "Invalid show key or no modifiers specified, using default: Ctrl+Shift+V" << endl;
         }
     }
     else {
-        cout << "Could not find configuration file winhidecfg.ini, using default settings. Hide window: Alt-B, Show window: Alt-C" << endl;
-        show_modifiers = MOD_ALT;
-        hide_modifiers = MOD_ALT;
+        cout << "Could not find configuration file winhidecfg.ini, using default settings. Hide window: Ctrl+Shift+C, Show window: Ctrl+Shift+V" << endl;
+        show_modifiers = MOD_CONTROL | MOD_SHIFT;
+        hide_modifiers = MOD_CONTROL | MOD_SHIFT;
     }
 
     if (RegisterHotKey(NULL, HOTKEY_HIDE, hide_modifiers | MOD_NOREPEAT, hide_key) &&

@@ -4,8 +4,8 @@ using namespace std;
 #define HOTKEY_HIDE 1
 #define HOTKEY_SHOW 2
 
-#define KEY_B 0x42
 #define KEY_C 0x43
+#define KEY_V 0x56
 #define KEY_INVALID -1
 
 #define NO_MOD 0
