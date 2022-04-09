@@ -52,10 +52,13 @@ void WindowState(HWND handle, int state, string action_str) {
 // handles the windows program exiting event to unhide all windows
 BOOL WINAPI ExitHandler(DWORD type) {
     if (type == CTRL_C_EVENT || type == CTRL_CLOSE_EVENT) {
-        for (HWND window : windows){
+        for (HWND window : windows) {
             WindowState(window, SW_SHOW, "Window shown");
             windows.pop_front();
         }
+        UnregisterHotKey(NULL, HOTKEY_HIDE);
+        UnregisterHotKey(NULL, HOTKEY_SHOW);
+
         exit(EXIT_SUCCESS);
     }
     return true;
