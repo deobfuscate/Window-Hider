@@ -44,7 +44,9 @@ void WindowState(HWND handle, int state, string action_str) {
         cout << action_str << ": " << handle << endl;
     else {
         char title[BUFSIZ];
-        GetWindowTextA(handle, title, GetWindowTextLengthA(handle) + 1);
+        if (GetWindowTextA(handle, title, GetWindowTextLengthA(handle) + 1) == 0)
+            cout << "Error getting window title: " << GetLastError() << endl;
+
         cout << action_str << ": \"" << title << "\"" << endl;
     }
 }
