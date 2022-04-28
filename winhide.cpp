@@ -4,8 +4,7 @@
 #include <string>
 #include "winhide.h"
 
-using namespace std;
-list<HWND> windows;
+std::list<HWND> windows;
 
 // reads the specified value from an ini file and returns it
 char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
@@ -38,16 +37,16 @@ void SingleInstance() {
 }
 
 // modifies the window state of the given handle
-void WindowState(HWND handle, int state, string action_str) {
+void WindowState(HWND handle, int state, std::string action_str) {
     ShowWindow(handle, state);
     if (GetWindowTextLengthA(handle) == 0)
-        cout << action_str << ": " << handle << endl;
+        std::cout << action_str << ": " << handle << std::endl;
     else {
         char title[BUFSIZ];
         if (GetWindowTextA(handle, title, GetWindowTextLengthA(handle) + 1) == 0)
-            cout << "Error getting window title: " << GetLastError() << endl;
+            std::cout << "Error getting window title: " << GetLastError() << std::endl;
 
-        cout << action_str << ": \"" << title << "\"" << endl;
+        std::cout << action_str << ": \"" << title << "\"" << std::endl;
     }
 }
 
@@ -67,18 +66,18 @@ BOOL WINAPI ExitHandler(DWORD type) {
 }
 
 // determines if given file exists
-BOOL FileExists(string path) {
+BOOL FileExists(std::string path) {
     DWORD attrib = GetFileAttributesA(path.c_str());
     return (attrib != INVALID_FILE_ATTRIBUTES && !(attrib & FILE_ATTRIBUTE_DIRECTORY));
 }
 
 int main() {
     SetConsoleTitleA("Window Hider");
-    cout << "Window Hider v" << VERSION << endl;
+    std::cout << "Window Hider v" << VERSION << std::endl;
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
     MSG msg = { FALSE };
-    list<string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
+    std::list<std::string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = 0,
         show_modifiers = NO_MOD,
         hide_modifiers = NO_MOD;
@@ -86,10 +85,10 @@ int main() {
         show_key = KEY_V,
         cwd[BUFSIZ];
     if (GetCurrentDirectoryA(BUFSIZ, cwd) == FALSE) {
-        cerr << "Could not obtain current working directory, exiting" << endl;
+        std::cerr << "Could not obtain current working directory, exiting" << std::endl;
         exit(EXIT_FAILURE);
     }
-    string ini_path = string(cwd) + "\\winhidecfg.ini";
+    std::string ini_path = std::string(cwd) + "\\winhidecfg.ini";
 
     if (FileExists(ini_path)) {
         start_hidden = ReadIniInt("Settings", "StartHidden", FALSE, ini_path.c_str());
@@ -105,7 +104,7 @@ int main() {
         hide_key = ReadIniString("HideHotKey", "Key", NULL, ini_path.c_str());
         if (hide_key == KEY_INVALID || hide_key == NULL_CHAR || hide_modifiers == NO_MOD) {
             hide_modifiers = MOD_CONTROL | MOD_SHIFT;
-            cerr << "Invalid hide key or no modifiers specified, using default: Ctrl+Shift+C" << endl;
+            std::cerr << "Invalid hide key or no modifiers specified, using default: Ctrl+Shift+C" << std::endl;
         }
 
         if (ReadIniInt("ShowHotKey", "Alt", NO_MOD, ini_path.c_str()) == TRUE)
@@ -119,21 +118,21 @@ int main() {
         show_key = ReadIniString("ShowHotKey", "Key", NULL, ini_path.c_str());
         if (show_key == KEY_INVALID || show_key == NULL_CHAR || show_modifiers == NO_MOD) {
             show_modifiers = MOD_CONTROL | MOD_SHIFT;
-            cerr << "Invalid show key or no modifiers specified, using default: Ctrl+Shift+V" << endl;
+            std::cerr << "Invalid show key or no modifiers specified, using default: Ctrl+Shift+V" << std::endl;
         }
     }
     else {
-        cout << "Could not find configuration file winhidecfg.ini, using default settings. Hide window: Ctrl+Shift+C, Show window: Ctrl+Shift+V" << endl;
+        std::cout << "Could not find configuration file winhidecfg.ini, using default settings. Hide window: Ctrl+Shift+C, Show window: Ctrl+Shift+V" << std::endl;
         show_modifiers = MOD_CONTROL | MOD_SHIFT;
         hide_modifiers = MOD_CONTROL | MOD_SHIFT;
     }
 
     if (RegisterHotKey(NULL, HOTKEY_HIDE, hide_modifiers | MOD_NOREPEAT, hide_key) &&
         RegisterHotKey(NULL, HOTKEY_SHOW, show_modifiers | MOD_NOREPEAT, show_key)) {
-        cout << "Hide Window and Show Window hotkeys registered" << endl;
+        std::cout << "Hide Window and Show Window hotkeys registered" << std::endl;
     }
     else {
-        cerr << "Failed to register hotkeys, exiting" << endl;
+        std::cerr << "Failed to register hotkeys, exiting" << std::endl;
         exit(EXIT_FAILURE);
     }
 
