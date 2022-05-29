@@ -27,7 +27,7 @@ char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* i
     return value;
 }
 
-// esures only a single instance is run
+// ensures only a single instance is run
 void SingleInstance() {
     HANDLE current_mutex = CreateMutexA(NULL, true, "Window Hider");
     if (current_mutex != 0 && GetLastError() == ERROR_ALREADY_EXISTS) {

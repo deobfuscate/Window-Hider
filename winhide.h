@@ -23,7 +23,7 @@ char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_
 // reads the specified value from an ini file and returns it
 char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* ini_path);
 
-// esures only a single instance is run
+// ensures only a single instance is run
 void SingleInstance();
 
 // modifies the window state of the given handle
