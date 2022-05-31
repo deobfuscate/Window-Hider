@@ -29,7 +29,7 @@ void SingleInstance();
 // modifies the window state of the given handle
 void WindowState(HWND handle, int state, std::string action_str);
 
-// handles the windows program exiting event to unhide all windows
+// handles the Windows program exiting event to unhide all windows
 BOOL WINAPI ExitHandler(DWORD type);
 
 // determines if given file exists

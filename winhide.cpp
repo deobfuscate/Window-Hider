@@ -50,7 +50,7 @@ void WindowState(HWND handle, int state, std::string action_str) {
     }
 }
 
-// handles the windows program exiting event to unhide all windows
+// handles the Windows program exiting event to unhide all windows
 BOOL WINAPI ExitHandler(DWORD type) {
     if (type == CTRL_C_EVENT || type == CTRL_CLOSE_EVENT) {
         for (HWND window : windows) {
