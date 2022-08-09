@@ -6,7 +6,7 @@
 
 std::list<HWND> windows;
 
-// reads the specified value from an ini file and returns it
+// reads the specified int from an ini file and returns it
 char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
     int value = KEY_INVALID;
     int ini_value = GetPrivateProfileIntA(category, key, default_value, ini_path);
@@ -16,7 +16,7 @@ char ReadIniInt(LPCSTR category, LPCSTR key, int default_value, const char* ini_
     return value;
 }
 
-// reads the specified value from an ini file and returns it
+// reads the specified string from an ini file and returns it
 char ReadIniString(LPCSTR category, LPCSTR key, int default_value, const char* ini_path) {
     char value = '\0';
     LPSTR ini_value = new CHAR[BUFSIZ];
