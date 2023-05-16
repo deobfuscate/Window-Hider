@@ -9,7 +9,7 @@ Simply run `winhide.exe` and the default hotkeys will be registered:
 * Ctrl+Shift+C to hide the active program window
 * Ctrl+Shift+V to show the last window that was hidden
 
-These hotkeys can be changed in the `winhide.ini` file. An option to start the program with the console window hidden is there as well.
+These hotkeys can be changed in the `winhide.ini` file. An option to start the program with the console window hidden is present as well.
 
 ## Features
 * Ability to hide and show windows
