@@ -76,14 +76,15 @@ int main() {
     std::cout << "Window Hider v" << VERSION << std::endl;
     SingleInstance();
     SetConsoleCtrlHandler(ExitHandler, TRUE);
-    MSG msg = { FALSE };
-    std::list<std::string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
     int start_hidden = 0,
         show_modifiers = NO_MOD,
         hide_modifiers = NO_MOD;
     char hide_key = KEY_C,
-        show_key = KEY_V,
-        cwd[BUFSIZ];
+         show_key = KEY_V,
+         cwd[BUFSIZ];
+    MSG msg = { FALSE };
+    std::list<std::string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
+
     if (GetCurrentDirectoryA(BUFSIZ, cwd) == FALSE) {
         std::cerr << "Could not obtain current working directory, exiting" << std::endl;
         exit(EXIT_FAILURE);
@@ -158,5 +159,6 @@ int main() {
             windows.pop_front();
         }
     }
+
     return EXIT_SUCCESS;
 }
