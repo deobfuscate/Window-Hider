@@ -14,6 +14,7 @@
 #define CLASS_DESKTOP "Progman" // desktop
 #define CLASS_DESKTOP_LAYER "WorkerW"  // desktop
 #define CLASS_TASKBAR "Shell_TrayWnd" // taskbar
+#define CLASS_MULTITASKBAR "Shell_SecondaryTrayWnd" // taskbar (multi-monitor)
 #define CLASS_START_MENU "Windows.UI.Core.CoreWindow" // start menu / notification center
 #define CLASS_NOTIFY_PANEL "NotifyIconOverflowWindow" // notification area popup
 
