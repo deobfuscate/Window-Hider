@@ -83,7 +83,7 @@ int main() {
          show_key = KEY_V,
          cwd[BUFSIZ];
     MSG msg = { FALSE };
-    std::list<std::string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_MULTITASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
+    const std::list<std::string> exclusions = { CLASS_DESKTOP, CLASS_DESKTOP_LAYER, CLASS_TASKBAR, CLASS_MULTITASKBAR, CLASS_START_MENU, CLASS_NOTIFY_PANEL };
 
     if (GetCurrentDirectoryA(BUFSIZ, cwd) == FALSE) {
         std::cerr << "Could not obtain current working directory, exiting" << std::endl;
